@@ -20,11 +20,12 @@ class CommandeModel extends Model
     public function getorderaxis()
     {
         $query = $this->db->table("ps_order_detail")
-            ->SELECT('ps_orders.id_order, product_name, product_quantity, total_price_tax_incl, date_add')
+            ->SELECT('ps_orders.id_order, product_name, product_quantity, total_price_tax_incl, date_add, reference')
             ->SELECTsum('total_price_tax_incl', 'total_prix')
             ->JOIN('ps_orders', 'ps_order_detail.id_order = ps_orders.id_order')
-            ->LIKE('ps_order_detail.product_name ', 'AXIS')
-            ->GROUPBY('id_order')
+            //->LIKE('ps_order_detail.product_name ', 'AXIS')
+            ->limit(50)
+            ->GROUPBY('id_order_detail')
             ->get();
         return $query;
     }
@@ -98,9 +99,29 @@ class CommandeModel extends Model
             ->WHERE('ps_product.active', 1)
             ->LIKE('ps_product_lang.name', $recherche, 'both')
             ->orderBY('ps_product.id_product')
+            ->get();
+        return $query;
+    }
+
+    //======================================================================================================================================================  
+    // SELECT multiplicateur_value, ps_product.id_product, ps_product_lang.name as name_pro, ps_manufacturer.name as name_manu, price, wholesale_price 
+    // FROM ps_product JOIN ps_product_lang ON ps_product_lang.id_product = ps_product.id_product JOIN ps_manufacturer.id_manufacturer = ps_product.id_manufacturer
+    // WHERE ps_manufacturer.active = 1 AND ps_product.active = 1 AND ps_product_lang.name LIKE '%.$recherche.%' ORDER BY ps_product.id_product;
+    //======================================================================================================================================================
+
+    public function getBarreRechercheOrder(string $recherche)
+    {
+        $rorder = $this->db->table("ps_order_detail")
+            ->SELECT('ps_orders.id_order, product_name, product_quantity, total_price_tax_incl, date_add, reference')
+            ->SELECTsum('total_price_tax_incl', 'total_prix')
+            ->JOIN('ps_orders', 'ps_order_detail.id_order = ps_orders.id_order')
+            ->LIKE('ps_orders.id_order', $recherche, 'both')
+            ->orLIKE('ps_orders.reference', $recherche, 'both')
+            ->limit(50)
+            ->groupBY('id_order_detail')
             ->get()
             ->getResult();
-        return $query;
+        return $rorder;
     }
 
     //======================================================================================================================================================
@@ -131,10 +152,11 @@ class CommandeModel extends Model
     public function modifprixhik()
     {
         $query = $this->db->table("ps_product")
-            ->SELECT('ps_product.id_product, name, price, wholesale_price')
+            ->SELECT('ps_product.id_product, price, wholesale_price, multiplicateur_value, ps_product_lang.name as name_pro, ps_manufacturer.name as name_manu')
             ->JOIN('ps_product_lang', 'ps_product.id_product = ps_product_lang.id_product')
+            ->JOIN('ps_manufacturer', ' ps_manufacturer.id_manufacturer = ps_product.id_manufacturer')
             ->WHERE('ps_product.active', 1)
-            ->Like(' name ', 'HIKVISION')
+            ->Like(' ps_product_lang.name ', 'HIKVISION')
             ->GROUPBY('id_product')
             ->get();
         return $query;
@@ -183,8 +205,9 @@ class CommandeModel extends Model
     public function modif_price()
     {
         $query = $this->db->table("ps_product")
-            ->SELECT('ps_product.id_product, name, price, wholesale_price')
+            ->SELECT('ps_product.id_product, ps_product_lang.name as name_pro, ps_manufacturer.name as name_manu, price, wholesale_price')
             ->JOIN('ps_product_lang', ' ps_product_lang.id_product = ps_product.id_product')
+            ->JOIN('ps_manufacturer', ' ps_manufacturer.id_manufacturer = ps_product.id_manufacturer')
             ->WHERE('ps_product.active', 1)
             ->WHERE('ps_product.id_product', $_GET['id_product'])
             ->GROUPBY('id_product')
@@ -272,5 +295,18 @@ class CommandeModel extends Model
             ->where('email', $email)
             ->get()->getResultArray();
         return $login;
+    }
+
+
+    public function import()
+    {
+        $query = $this->db->table("ps_product")
+            ->SELECT('ps_product.id_product, name, price,wholesale_price')
+            ->JOIN('ps_product_lang', 'ps_product.id_product = ps_product_lang.id_product')
+            ->WHERE('ps_product.active', 1)
+            ->Like(' name ', 'HIKVISION')
+            ->GROUPBY('id_product')
+            ->update();
+        return $query;
     }
 }
