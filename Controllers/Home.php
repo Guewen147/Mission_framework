@@ -6,113 +6,138 @@ use App\Models\CommandeModel;
 
 class Home extends BaseController
 {
-    protected $commandeA;
-    protected $commandeH;
-    protected $produitS;
-    protected $produitL;
-    protected $prixHik;
-    protected $Marque;
-    protected $produitM;
-    protected $modif_price;
-    protected $modif_order;
-    protected $update_order;
+    protected $commandeModel;
 
     public function __construct()
     {
-        $this->commandeA = new CommandeModel();
+        //================
+        //acces au modele
+        //================
 
-        $this->commandeH = new CommandeModel();
+        $db      = \Config\Database::connect();
 
-        $this->produitS = new CommandeModel();
-
-        $this->produitL = new CommandeModel();
-
-        $this->prixHik = new CommandeModel();
-
-        $this->Marque = new CommandeModel();
-
-        $this->produitM = new CommandeModel();
-
-        $this->modif_price = new CommandeModel();
-
-        $this->modif_order = new CommandeModel();
-
-        $this->update_order = new CommandeModel();
+        $this->commandeModel = new CommandeModel();
     }
-
+    //=======================================
+    // fonction qui affiche la page d'accueil
+    //=======================================
     public function index()
     {
+
+        //======================================================
+        //Charge de les vues header, footer et la page d'accueil
+        //======================================================
 
         echo view('includes/header');
         echo view('pages/home');
         echo view('includes/footer');
+      //  return view('login');
     }
 
+    //=========================================================================================================
+    // fonction qui affiche la page des commandes Axis reprennant l'ID, le nom de la commande, le prix, la date
+    //=========================================================================================================
     public function commandeaxis()
     {
-        $builder = $this->commandeA->getorderaxis()->getResult();
+        //=======================================
+        //Appel de la fonction dans CommandeModel
+        //=======================================
+
+        $builder = $this->commandeModel->getorderaxis()->getResult();
+
+        //============================================================================
+        //Création d'un jeu de données $data pouvant être passé à la vue
+        //on créé une variable qui récupère le résultat de la requête : getorderaxis()
+        //============================================================================
 
         $data = [
-            'id_data' => $builder
+            'id_data' => $builder,
         ];
 
+        //=============================================
+        //on charge la vue correspondante
+        //et on envoie le jeu de données $data à la vue
+        //la vue aura acces a une variable $id_data
+        //=============================================
+
         echo view('includes/header');
-        echo view('includes/barre_recherche');
         return view('pages/commandeaxis', $data);
         echo view('includes/footer');
     }
 
+    //==============================================================================================================
+    // fonction qui affiche la page des commandes Hikvision reprennant l'ID, le nom de la commande, le prix, la date
+    //==============================================================================================================
     public function commandehikvision()
     {
-        $builder = $this->commandeH->getorderhik()->getResult();
+        $builder = $this->commandeModel->getorderhik()->getResult();
 
         $data = [
             'id_data' => $builder
         ];
 
         echo view('includes/header');
-        echo view('includes/barre_recherche');
         echo view('pages/commandehikvision', $data);
         echo view('includes/footer');
     }
 
+    //=======================================================================================================================================================
+    // fonction qui affiche la page des produits reprennant l'ID, le nom de la marque, le nom du produit, de la commande, le prix d'achat et le prix de vente
+    //=======================================================================================================================================================
     public function produit_marque()
     {
-        $builder = $this->Marque->getMarque()->getResult();
+        //======================================================
+        //création de variable qui prennent la valeur dans l'url
+        //======================================================
+        $recherche = $this->request->getVar('q');
+        $name = $this->request->getVar('name');
+
+        //===============================================================================================================================================================
+        // - Si $recherche(q='nom d'un produit ou une partie du nom') est dans l'url alors execute la fonction getBarreRecherche() qui recherche un produit selon son nom
+        // - Sinon si $$name(name='nom d'un marque') est dans l'url alors execute la fonction getListeMarque() qui affiche tous les produits d'une marque
+        // - Sinon affiche tous les produits 
+        //================================================================================================================================================================
+        if ($recherche) {
+            $builder = $this->commandeModel->getBarreRecherche($recherche);
+        } elseif ($name) {
+            $builder = $this->commandeModel->getListeMarque($name);
+        } else {
+            $builder = $this->commandeModel->getproduitM();
+        }
+        $liste = $this->commandeModel->getMarque();
 
         $data = [
-            'id_data' => $builder
-        ];
-
-        $builder2 = $this->produitM->getproduitM()->getResult();
-
-        $donnees = [
-            'id_donnees' => $builder2
+            'id_data' => $builder,
+            'liste' => $liste
         ];
 
         echo view('includes/header');
-        echo view('includes/barre_recherche'); //barre recherche autre
-        echo view('pages/produit_marque', $donnees);
+        echo view('pages/produit_marque', $data);
         echo view('includes/footer');
     }
 
+    //=====================================================================================================================================
+    // fonction qui affiche la page pour modification de prix produit Hikvision selon l'ID reprennant l'ID, le nom de la commande, le prix
+    //=====================================================================================================================================
     public function prixHikvision()
     {
-        $builder = $this->prixHik->modifprixhik()->getResult();
+        $builder = $this->commandeModel->modifprixhik()->getResult();
 
         $data = [
             'id_data' => $builder
         ];
 
         echo view('includes/header');
-        echo view('includes/barre_recherche'); //recherche modif
         echo view('pages/prixHikvision', $data);
         echo view('includes/footer');
     }
 
+    //=======================================================================================================
+    // fonction qui affiche la page des produits en stock reprennant l'ID, le nom de la commande, la quantité
+    //=======================================================================================================
     public function produitStock()
     {
-        $builder = $this->produitS->getStock()->getResult();
+        $builder = $this->commandeModel->getStock()->getResult();
 
         $data = [
             'id_data' => $builder
@@ -123,9 +148,12 @@ class Home extends BaseController
         echo view('includes/footer');
     }
 
+    //==================================================================================================================
+    // fonction qui affiche la page des produits en stock limite > 5 reprennant l'ID, le nom de la commande, la quantité
+    //==================================================================================================================
     public function produitLimite()
     {
-        $builder = $this->produitL->getStockLimit()->getResult();
+        $builder = $this->commandeModel->getStockLimit()->getResult();
 
         $data = [
             'id_data' => $builder
@@ -136,14 +164,12 @@ class Home extends BaseController
         echo view('includes/footer');
     }
 
-    public function login()
-    {
-        echo view('pages/login');
-    }
-
+    //=====================================================================================================================================================================
+    // fonction qui affiche la page de modification du Prix d'un produit selon son ID, reprennant l'ID, le nom du produit, le nom de la marque, le prix de vente et d'achat
+    //=====================================================================================================================================================================
     public function modif_price()
     {
-        $builder = $this->modif_price->modif_price()->getResult();
+        $builder = $this->commandeModel->modif_price()->getResult();
 
         $data = [
             'id_data' => $builder
@@ -154,29 +180,154 @@ class Home extends BaseController
         echo view('includes/footer');
     }
 
-    public function modif_order()
+    //============================================================================================================================================================
+    // fonction qui affiche la page de modification du Prix d'une commande selon son ID, reprennant l'ID, le nom du produit, la quantité, la date d'ajout, le prix 
+    //============================================================================================================================================================
+    public function modif_order($id_order = null)
     {
-        $builder = $this->modif_order->modif_order()->getResult();
-
+        $builder = $this->commandeModel->modif_order()->getResult();
         $data = [
             'id_data' => $builder
         ];
-
         echo view('includes/header');
         echo view('pages/modif_order', $data);
-        echo view('includes/footer');
     }
 
-    public function update_order()
+    //=====================================================================================================================================================================
+    // fonction qui affiche la page de modification du Prix d'un produit selon son ID, reprennant l'ID, le nom du produit, le nom de la marque, le prix de vente et d'achat
+    //=====================================================================================================================================================================
+    public function modif_marque($id_product = null)
     {
-        $builder = $this->update_order->update_order()->getResult();
-
-        $update = [
+        $marque = $this->request->getVar('name_marque');
+        if ($marque) {
+            $builder = $this->commandeModel->modif_marques_full()->getResult();
+        } else {
+            $builder = $this->commandeModel->modif_marques()->getResult();
+        }
+        $data = [
             'id_data' => $builder
         ];
-
         echo view('includes/header');
-        echo view('pages/modif_order', $update);
-        echo view('includes/footer');
+        echo view('pages/modif_price', $data);
+    }
+
+    //=======================================================================================================
+    // fonction qui vérifie si la modification de prix d'une commande à été saisie et modifie le prix d'achat 
+    //=======================================================================================================
+    function edit_validation()
+    {
+        helper(['forme', 'url']);
+
+        //==============================================
+        //oblige à saisir un float non null pour le prix
+        //==============================================
+        $error = $this->validate([
+            'total_price_tax_incl' => 'required|greater_than[0]'
+        ]);
+
+        $modif_order = new CommandeModel();
+
+        $id_order = $this->request->getVar('id_order');
+        //========================================================================
+        // Si la saisie du prix est null affiche un message d'erreur et rafraichie 
+        //========================================================================
+        if (!$error) {
+            $data['id_data'] = $modif_order->modif_order()->getResult();
+            $data['error'] = $this->validator;
+            echo view('includes/header');
+            echo view('pages/modif_order', $data);
+        }
+
+        //================================================================================================================================
+        // Sinon modfie le prix d'achat et de vente et return à la page des commmandes un envoie un message pour confirmer la modification 
+        //================================================================================================================================
+        else {
+            $data = [
+                'total_price_tax_incl' => $this->request->getVar('total_price_tax_incl')
+            ];
+
+            $modif_order->updatePrice($id_order, $_POST['total_price_tax_incl']);
+
+            $session = \Config\Services::session();
+
+            $session->setFlashdata('success', 'Produit Modifié');
+
+            return $this->response->redirect(site_url('/Home/commandehikvision'));
+        }
+    }
+
+    //======================================================================================================================
+    // fonction qui vérifie si la modification de prix d'un produit à été saisie et modifie le prix d'achat puis modifie le 
+    // prix de vente selon son coéfficient multiplicateur_value selon sa marque
+    //=======================================================================================================================
+    function edit_val_marque()
+    {
+        helper(['forme', 'url']);
+
+        $error = $this->validate([
+            'wholesale_price' => 'required|greater_than[0]'
+        ]);
+
+        $modif_order = new CommandeModel();
+
+        $marque = $this->request->getVar('name_marque');
+        $id_product = $this->request->getVar('id_product');
+        $multiplicateur_value = $this->request->getVar('multiplicateur_value');
+        if (!$error) {
+            $data['id_data'] = $modif_order->modif_marques()->getResult();
+            $data['error'] = $this->validator;
+            echo view('includes/header');
+            echo view('pages/modif_price', $data);
+        } else {
+            $data = [
+                'wholesale_price' => $this->request->getVar('wholesale_price')
+            ];
+
+            $modif_order->updatePriceMarque($id_product, $_POST['wholesale_price'], $multiplicateur_value);
+
+            $session = \Config\Services::session();
+
+            //==============================================================================
+            // - Si le nom de la marque est dans l'url possibilité de modifier tous les prix 
+            // - Sinon modifie le prix selon l'ID et retourne à la page produit_marque
+            //==============================================================================
+            if (isset($marque)) {
+                $data['id_data'] = $modif_order->modif_marques_full()->getResult();
+                echo view('pages/modif_price', $data);
+            } else {
+
+                $session->setFlashdata('success', 'Produit Modifié');
+
+                return $this->response->redirect(site_url('/Home/produit_marque'));
+            }
+        }
+    }
+    //$W3campwd56$
+    public function login()
+    { 
+        $session = session();
+        $email = $this->request->getPost('email');
+        $passwd = $this->request->getPost('passwd');
+        $commandeModel = new CommandeModel();
+        $data = $commandeModel->login(['email' => $email]); 
+        $pass = password_hash('$W3campwd56$', PASSWORD_DEFAULT);
+         
+         if( count($data) > 0 && password_verify($passwd, $data[0]['passwd'])){
+
+                $ses_data = [
+                    'lastname' => $data[0]['lastname'], 
+                    'email' => $data[0]['email']
+                ];
+               
+                $session->set($ses_data);
+                return $this->response->redirect(('/Home'));
+            
+            
+
+        }
+        else{
+            $session->setFlashdata('msg', " email ou mot de passe incorrect ");
+            echo view('pages/login');
+        }
     }
 }
