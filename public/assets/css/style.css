@@ -226,6 +226,13 @@ ul.pagination a:focus {
   padding-left: 10px;
   padding-right: 10px;
 }
+.container1 {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+}
 
 .responsive-table li {
   border-radius: 3px;
@@ -242,10 +249,12 @@ ul.pagination a:focus {
   color: white;
   letter-spacing: 0.03em;
 }
+
 .table-row {
   background-color: #ffffff;
   box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
 }
+
 .col-1 {
   flex-basis: 15%;
 }
@@ -337,8 +346,128 @@ button:focus {
   background-color: aqua;
 }
 
-.import
+#import
 {
   position: absolute;
+  position: fixed;
+  background-color: white;
+  
   text-align: left;
+  border: 2px solid #ff6600;
+  border-radius: 35px;
+  
+}
+#import h4{
+  text-align : center;
+  background-color: #ff6600;
+  color: white;
+  margin: 0 auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 32px 32px 0px 0px;
+}
+
+input[type=file] {
+  width: 100%;
+  padding: 12px 20px;
+  text-align: center;
+  display: inline-block;
+  box-sizing: border-box;
+  color : black;
+}
+
+input[type=submit] {
+  background-color: #ff6600;
+  color: white;
+  margin-left: 35%;
+  margin-right: 35% ;
+  margin-top: 10px;                      
+  margin-bottom: 10px;
+  border: none;
+  width: 30%;
+  box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+.Acceuil1
+{
+  position: absolute;
+  margin-top: 1%;
+  margin-left : 10%;
+  width: 25%;
+  height: 40%;
+  border-radius: 30px;
+  background-color:#ff6600   ;
+}
+
+.Acceuil2
+{
+  position:absolute;
+  margin-top: 1%;
+  margin-left : 36%;
+  width: 25%;
+  height: 40%;
+  border-radius: 30px;
+  background-color:#5e5e5e;
+}
+
+.Acceuil3
+{
+  position: absolute;
+  margin-top: 1%;
+  margin-left : 62%;
+  width: 25%;
+  height: 40%;
+  border-radius: 30px;
+  background-color:#ff6600   ;
+}
+.Acceuil4
+{
+  position: absolute;
+  margin-top: 22%;
+  margin-left : 10%;
+  width: 25%;
+  height: 40%;
+  border-radius: 30px;
+  background-color:#5e5e5e;
+}
+
+.Acceuil5
+{
+  position:absolute;
+  margin-top: 22%;
+  margin-left : 36%;
+  width: 25%;
+  height: 40%;
+  border-radius: 30px;
+  background-color:#ff6600 ;
+}
+
+.Acceuil6
+{
+  position: absolute;
+  margin-top: 22%;
+  margin-left : 62%;
+  width: 25%;
+  height: 40%;
+  border-radius: 30px;
+  background-color:#5e5e5e;
+}
+
+.Access
+{
+  text-align: center;
+  margin-top: 8%;
+  color : white;
+
+}
+.im-lien
+{
+  background-color: white;
+  border: 4px black;
+  margin-top: 5%;
+  margin-left: 1%;
+  width: 98%;
+  height: 265px;
+  border-radius: 30px;
 }
