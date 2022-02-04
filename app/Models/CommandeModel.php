@@ -17,7 +17,7 @@ class CommandeModel extends Model
     // ON ps_orders.id_order_detail = ps_orders.id_order WHERE ps_order_detail.name LIKE %AXIS% GROUP BY id_order
     //======================================================================================================================================================
 
-    public function getorderaxis()
+    public function getorderCommande()
     {
         $query = $this->db->table("ps_order_detail")
             ->SELECT('ps_orders.id_order, product_name, product_quantity, total_price_tax_incl, date_add, reference')
