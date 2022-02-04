@@ -10,15 +10,18 @@
 <body>
 
     <h1> Modification des commandes de HIKVISION </h1>
-    <form enctype="multipart/form-data" action="import_csv.php" method="post">
-        <div>
-            <label>Choisir un fichier CSV</label>
+    <div id='import'>
+        <form enctype="multipart/form-data" action="<?=site_url('Home/importCsv') ?>" method="post">
+        
+            <h4>Choisir un fichier CSV</h4>
+</br>
             <input type="file" name="file" accept=".csv">
+</br>
 
-            <button type="submit" name="import">Import</button>
-
-        </div>
-    </form>
+            <input type="submit" name="import" value='Import'>
+        </form>
+    </div>
+    
 
 
 
@@ -38,10 +41,10 @@
 
                 <li class="table-row">
                     <div class="col col-1" data-label="id_product"><?php echo $product -> id_product ?></div>
-                    <div class="col col-2" data-label="name"><?php echo $product -> name ?></div>
+                    <div class="col col-2" data-label="name"><?php echo $product -> name_pro ?></div>
                     <div class="col col-3" data-label="price"><?php echo '&emsp;' . '&emsp;' .  $product -> wholesale_price ?></div>
                     <div class="col col-3" data-label="price"><?php echo '&emsp;' . '&emsp;' .  $product -> price ?></div>
-                    <div class="col col-4" data-label="MODIFIER"><a href="<?php echo base_url('Home/modif_price') ?>?id_product=<?php echo $product -> id_product; ?>"><span id=button>Modifier</span id=button> </a>
+                    <div class="col col-4" data-label="MODIFIER"><a href="<?php echo base_url('Home/modif_price') ?>?id_product=<?php echo $product -> id_product; ?>&name_manu=<?php echo $product -> name_manu; ?>&multiplicateur_value=<?php echo $product -> multiplicateur_value; ?>"><span id=button>Modifier</span id=button> </a>
                 </li>
 
             <?php } 
@@ -49,5 +52,3 @@
 
         </ul>
     </div>
-
-    

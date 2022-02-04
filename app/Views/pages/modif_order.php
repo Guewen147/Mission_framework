@@ -48,8 +48,8 @@ $validation = \Config\Services::validation();
                     } ?>
                         </li>
                         <li class="table-row">
-                            <div class="col col-4" data-label="RETOUR"><input style="height: 50px;" onclick="history.go(-1)" id=button value="Retour"> </div>
-                            <div class="col col-4" data-label="RETOUR"><input type="hidden" name="id" value="<?php echo $order->id_order; ?>" /><input type="submit" style="margin-right:20%;height: 50px;" name="update_order" id="button" value="Modifier"></div>
+                            <div class="col col-1" data-label="RETOUR"><input style="height: 50px;" onclick="history.go(-1)" id=button value="Retour"> </div>
+                            <div class="col col-1" data-label="RETOUR"><input type="hidden" name="modif" value="<?php echo $order->id_order; ?>" /><input type="submit" style="margin-left:0%;height: 50px;" name="update_order" id="button" value="Modifier"></div>
                         </li>
             </form>
         </ul>
