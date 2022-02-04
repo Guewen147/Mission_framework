@@ -31,11 +31,22 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
 
-$routes->post('import-csv', 'Home::importCsvToDb');
+$routes->get('/login', 'Home::login');
+$routes->group('',['filter'=>'authGuard'], function($routes){
+    $routes->get('/', 'Home::index');
+    $routes->get('/Home', 'Home::index');
+    $routes->get('/Home/commande', 'Home::commande');
+    $routes->get('/Home/commandehikvision', 'Home::commandehikvision');
+    $routes->get('/Home/modif_order', 'Home::modif_order');
+    $routes->get('/Home/modif_price', 'Home::modif_price');
+    $routes->get('/Home/modif_marque', 'Home::modif_marque');
+    $routes->get('/Home/prixhikvision', 'Home::prixHikvision');
+    $routes->get('/Home/produit_marque', 'Home::produit_marque');
+    $routes->get('/Home/produitstock', 'Home::produitstock');
+    $routes->get('/Home/produitLimite', 'Home::produitLimite');
 
-
+});
 
 /*
  * --------------------------------------------------------------------
