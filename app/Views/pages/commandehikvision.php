@@ -11,7 +11,20 @@
  <body>
 
  <h1> Liste des commandes de Hikvision </h1>
+ <?php
 
+$session = \Config\Services::session();
+
+if($session->getFlashdata('success'))
+{
+    echo '
+    <div class="alert alert-success">
+    '.$session->getFlashdata('success').'
+    </div>
+    ';
+}
+
+?>
  <div class="container">
         <ul class="responsive-table">
             <li class="table-header">

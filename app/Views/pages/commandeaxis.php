@@ -43,3 +43,15 @@
             } ?>
         </ul>
     </div>
+    <div>
+        <?php
+
+        if ($pager) {
+            $pager->setPath('Home');
+
+            echo $pager->links();
+        }
+
+        ?>
+
+    </div>

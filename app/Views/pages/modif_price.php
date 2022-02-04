@@ -1,24 +1,3 @@
-
-<?php
-/*if (isset($_POST['update'])) {
-
-$productid = intval($_GET['id_product']);
-$price = $_POST['price'];
-$wholesale_price = $_POST['wholesale_price'];
-
-
-$requete = "UPDATE ps_product SET wholesale_price=:prix_achat WHERE id_product=:nouvelleid";
-
-$query = $bdd->prepare($requete);
-$query->bindParam(':nouvelleid', $productid, PDO::PARAM_STR);
-$query->bindParam(':prix_achat', $wholesale_price, PDO::PARAM_STR);
-$query->execute();
-
-echo "<script>alert('Vous avez modifier un produit');</script>";
-echo "<script> window.location.href='produit_marque.php'</script>";
-}*/
-
-?>
 <!DOCTYPE html>
 <html>
 
@@ -31,48 +10,74 @@ echo "<script> window.location.href='produit_marque.php'</script>";
 </head>
 
 <body>
+    <?php $validation = \Config\Services::validation(); ?>
 
     <h1>Modification du prix du produit</h1>
-    <?php
+    <div class="container">
+        <ul class="responsive-table">
+            <li class="table-header">
+                <div class="col col-1">ID</div>
+                <div class="col col-2">Nom de la marque</div>
+                <div class="col col-2">Nom du Produit</div>
+                <div class="col col-3">Prix d'achat</div>
+                <div class="col col-3">Prix de vente</div>
 
-/* $productid = intval($_GET['id_product']);
-    $requete = "SELECT ps_product.id_product, name, price, wholesale_price FROM ps_product INNER JOIN ps_product_lang ON ps_product_lang.id_product = ps_product.id_product WHERE ps_product.id_product=:nouvelleid";
+            </li>
+            <?php if (!empty($id_data)) {
 
-    $query = $bdd->prepare($requete);
-    $query->bindParam(':nouvelleid', $productid, PDO::PARAM_STR);
-    $query->execute();
+                if (isset($_GET['name_marque']) and !empty($_GET['name_marque'])) {
+            ?>
+                    <?php foreach ($id_data as $product) { ?>
+                        <form method="post" action="<?php echo base_url('Home/edit_val_marque') ?>?name_marque=<?= $_GET['name_marque']; ?>&id_product=<?= $product->id_product; ?>&multiplicateur_value=<?= $product->multiplicateur_value ?>">
+                            <li class="table-row">
+                                <div class="col col-1" data-label="id_product"><?php echo $product->id_product; ?></div>
+                                <div class="col col-2" data-label="name_manu"><?php echo $product->name_manu; ?></div>
+                                <div class="col col-2" data-label="name_pro"><?php echo $product->name_pro; ?></div>
+                                <div class="col col-3" data-label="price_achat"><input type="text" name="wholesale_price" id="" value="<?php echo  $product->wholesale_price; ?>"></div>
+                                <?php
+                                if ($validation->getError('wholesale_price')) {
+                                    echo "
+                            <div class='alert alert-danger mt-2'>
+                            " . $validation->getError('wholesale_price') . "
+                            </div>
+                            ";
+                                }
+                                ?>
+                                <div class="col col-3" data-label="price_vente"><?php echo $product->price; ?></div>
+                                <div class="col col-4" data-label="Modifier"><input type="hidden" name="id" value="<?php echo $product->id_product; ?>" /><input type="submit" style="margin-right:20%;height: 50px;" name="update" id="button" value="Modifier"></div>
+                        </form>
+                    <?php
+                    }
+                } else { ?>
+                    <form method="post" action="<?php echo base_url('Home/edit_val_marque'); ?>?id_product=<?php echo $_GET['id_product']; ?>&multiplicateur_value=<?php echo $_GET['multiplicateur_value']; ?>">
+                        <?php foreach ($id_data as $product) { ?>
 
-    $resultat = $query->fetchAll(PDO::FETCH_OBJ);
-*/
+                            <li class="table-row">
+                                <div class="col col-1" data-label="id_product"><?php echo $product->id_product; ?></div>
+                                <div class="col col-2" data-label="name_manu"><?php echo $product->name_manu; ?></div>
+                                <div class="col col-2" data-label="name_pro"><?php echo $product->name_pro; ?></div>
+                                <div class="col col-3" data-label="price_achat"><input type="text" name="wholesale_price" id="" value="<?php echo  $product->wholesale_price; ?>"></div>
+                                <?php
+                                if ($validation->getError('wholesale_price')) {
+                                    echo "
+                            <div class='alert alert-danger mt-2'>
+                            " . $validation->getError('wholesale_price') . "
+                            </div>
+                            ";
+                                }
+                                ?>
 
-if(!empty($id_data)){
-    foreach ($id_data as $row) {
-
-
-    ?>
-        <div class="container">
-            <ul class="responsive-table">
-                <li class="table-header">
-                    <div class="col col-1">ID</div>
-                    <div class="col col-2">Nom du Produit</div>
-                    <div class="col col-3">Prix d'achat</div>
-                    <!-- <div class="col col-3">Prix de vente</div> -->
-
-                <!--</li>
-                <form action="" method="POST">
-                    <li class="table-row">
-                        <div class="col col-1" data-label="id_product"><?php // echo $product->id_product; ?></div>
-                        <div class="col col-2" data-label="name"><?php  // echo $product->name; ?></div>
-                        <div class="col col-3" data-label="price_achat"><input type="text" name="wholesale_price" id="" value="<?php  // echo  $product->wholesale_price; ?>"></div>
-                        <div class="col col-3" data-label="price_vente"><input type="text" name="price" id="" value="<?php // echo $product->price; ?>"></div>
-                    </li>-->
-                <?php } 
-                }?>
+                                <div class="col col-3" data-label="price_vente"><?php echo $product->price; ?></div>
+                            </li>
+                        <?php }
+                        ?> <div class="col col-4" data-label="RETOUR"><input type="hidden" name="id" value="<?php echo $product->id_product; ?>" /><input type="submit" style="margin-right:20%;height: 50px;" name="update" id="button" value="Modifier"></div>
+                <?php }
+            } ?>
                 </li>
                 <li class="table-row">
                     <div class="col col-4" data-label="RETOUR"><input style="height: 50px;" onclick="history.go(-1)" id=button value="Retour"> </div>
-                    <div class="col col-4" data-label="RETOUR"><input type="submit" style="margin-right:20%;height: 50px;" name="update" id="button" value="Modifier"></div>
+                    <div class="col col-4" data-label="MODIFIER"><a href="<?php echo base_url('Home/produit_marque') ?>"><input style="margin-right:20%;height: 50px;" value="Accueil" id="button"></input></a></div>
                 </li>
-                </form>
-            </ul>
-        </div>
+                    </form>
+        </ul>
+    </div>

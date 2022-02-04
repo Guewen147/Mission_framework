@@ -1,13 +1,3 @@
-<?php
-
-if (isset($_POST['update_order'])) {
-
-
-
-    echo "<script>alert('Vous avez modifier une commande');</script>";
-    // echo "<script> window.location.href='commandeAxis.php'</script>";
-}
-?>
 <!DOCTYPE html>
 <html>
 
@@ -18,6 +8,9 @@ if (isset($_POST['update_order'])) {
     <title>Modification de la Commande</title>
     <link href="<?= base_url('assets/css/style.css') ?>" rel="stylesheet" type="text/css">
 </head>
+<?php
+$validation = \Config\Services::validation();
+?>
 
 <body>
 
@@ -30,24 +23,34 @@ if (isset($_POST['update_order'])) {
                 <div class="col col-2">Nom de la Commande</div>
                 <div class="col col-3">Prix taxe inclus</div>
 
-            </li> <?php
-                    if (!empty($id_data)) {
-                        foreach ($id_data as $order) {
-                    ?>
+            </li>
+            <form method="post" action="<?php echo base_url('Home/edit_validation'); ?>?id_order=<?php echo $_GET['id_order']; ?>">
+                <?php
 
-                    <li class="table-row">
-                        <div class="col col-1" data-label="id_product"><?php echo $order->id_order; ?></div>
-                        <div class="col col-2" data-label="name"><?php echo $order->product_name; ?></div>
-                        <form action="" method="POST">
-                            <div class="col col-3" data-label="price"><input type="text" name="price" id="" value="<?php echo $order->total_price_tax_incl; ?>"></div>
-                    </li>
-            <?php }
+                if (!empty($id_data)) {
+                    foreach ($id_data as $order) {
+                ?>
+
+                        <li class="table-row">
+                            <div class="col col-1" data-label="id_product"><?php echo $order->id_order; ?></div>
+                            <div class="col col-2" data-label="name"><?php echo $order->product_name; ?></div>
+                            <form action="" method="POST">
+                                <div class="col col-3" data-label="price"><input type="text" name="total_price_tax_incl" id="" value="<?php echo $order->total_price_tax_incl; ?>">
+                                    <?php
+                                    if ($validation->getError('total_price_tax_incl')) {
+                                        echo "
+                            <div class='alert alert-danger mt-2'>
+                            " . $validation->getError('total_price_tax_incl') . "
+                            </div>
+                            ";
+                                    }
+                                    ?> <?php }
                     } ?>
-            </li>
-            <li class="table-row">
-                <div class="col col-4" data-label="RETOUR"><input style="height: 50px;" onclick="history.go(-1)" id=button value="Retour"> </div>
-                <div class="col col-4" data-label="RETOUR"><input type="submit" style="margin-right:20%;height: 50px;" name="update_order" id="button" value="Modifier"></div>
-            </li>
+                        </li>
+                        <li class="table-row">
+                            <div class="col col-4" data-label="RETOUR"><input style="height: 50px;" onclick="history.go(-1)" id=button value="Retour"> </div>
+                            <div class="col col-4" data-label="RETOUR"><input type="hidden" name="id" value="<?php echo $order->id_order; ?>" /><input type="submit" style="margin-right:20%;height: 50px;" name="update_order" id="button" value="Modifier"></div>
+                        </li>
             </form>
         </ul>
     </div>

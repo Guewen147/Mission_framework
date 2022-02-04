@@ -10,8 +10,8 @@
 <body>
 
     <h1> Modification des commandes de HIKVISION </h1>
-    <form enctype="multipart/form-data" action="<?=site_url('Home/importCsvToDb') ?>" method="post">
-        <div class='import'>
+    <form enctype="multipart/form-data" action="import_csv.php" method="post">
+        <div>
             <label>Choisir un fichier CSV</label>
             <input type="file" name="file" accept=".csv">
 

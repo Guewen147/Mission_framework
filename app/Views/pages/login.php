@@ -26,13 +26,7 @@
             <input type="password" placeholder="Entrer le mot de passe" name="passwd" required>
 
             <input type="submit" id='submit' value='Se connecter'>
-            <?php /*
-            if (isset($_GET['erreur'])) {
-                $err = $_GET['erreur'];
-                if ($err == 1 || $err == 2)
-                    echo "<p style='color:red'>Utilisateur ou mot de passe incorrect</p>";
-            }
-            */?>
+           
             <?php if(session()->getFlashdata('msg')):?>
                     <div class="alert alert-warning">
                        <?= session()->getFlashdata('msg') ?>
