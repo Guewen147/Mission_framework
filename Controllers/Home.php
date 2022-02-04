@@ -39,12 +39,16 @@ class Home extends BaseController
     //=========================================================================================================
     public function commandeaxis()
     {
+        $recherche = $this->request->getVar('q');
         //=======================================
         //Appel de la fonction dans CommandeModel
         //=======================================
-
+        if ($recherche) {
+            $builder = $this->commandeModel->getBarreRechercheOrder($recherche); 
+        }
+        else {
         $builder = $this->commandeModel->getorderaxis()->getResult();
-
+        }
         //============================================================================
         //Création d'un jeu de données $data pouvant être passé à la vue
         //on créé une variable qui récupère le résultat de la requête : getorderaxis()
@@ -329,5 +333,74 @@ class Home extends BaseController
             $session->setFlashdata('msg', " email ou mot de passe incorrect ");
             echo view('pages/login');
         }
+    }
+
+    //==============================================================================//
+    //                                                                              //
+    //                                                                              //
+    //==============================================================================//
+
+    public function importcsv()
+    {
+        $input = $this->validate([
+            'file' => 'uploaded[file]|max_size[file,2048]|ext_in[file,csv],'
+        ]);
+
+        if (!$input) {
+            $data['validation'] = $this->validator;
+            return view('/pages/prixhikvision', $data);
+        } 
+            else 
+            {
+                if ($file = $this->request->getFile('file')) {
+                    if ($file->isValid() && !$file->hasMoved()) {
+                        $newName = $file->getRandomName();
+                        $file->move('../public/csvfile', $newName);
+                        $file = fopen("../public/csvfile/" . $newName, "r");
+                        $i = 0;
+                        $numberOfFields = 4;
+
+                        $csvArr = array();
+
+                        while (($filedata = fgetcsv($file, 1000, ",")) !== FALSE) {
+                            $num = count($filedata);
+                            if ($i > 0 && $num == $numberOfFields) {
+                                $csvArr[$i]['id_product'] = $filedata[0]; // Faut modifier 
+                                $csvArr[$i]['name'] = $filedata[1];
+                                $csvArr[$i]['wholesale_price'] = $filedata[2];
+                                $csvArr[$i]['price'] = $filedata[3];
+                            }
+                            $i++;
+                        }
+                        fclose($file);
+
+                        $count = 0;
+                        foreach ($csvArr as $userdata) {
+                            $ps_product = new CommandeModel();
+
+                            $findRecord = $ps_product->where('id_product', $userdata->id)->countAllResults();
+
+                            if ($findRecord == 0) {
+                                if ($ps_product->insert($userdata)) {
+                                    $count++;
+                                }
+                            }
+                        }
+                        session()->setFlashdata('message', $count . ' rows successfully added.');
+                        session()->setFlashdata('alert-class', 'alert-success');
+                    } else 
+                    {
+                    session()->setFlashdata('message', 'CSV file coud not be imported.');
+                    session()->setFlashdata('alert-class', 'alert-danger');
+                    }
+                }
+                else 
+                {
+                session()->setFlashdata('message', 'CSV file coud not be imported.');
+                session()->setFlashdata('alert-class', 'alert-danger');
+            }
+        }
+
+        //return redirect()->route('/pages/hikvision');
     }
 }
