@@ -11,7 +11,9 @@ class CommandeModel extends Model
         // Loading db instance
         $this->db = db_connect();
     }
+    
 
+    // affiche les commandes 
     //======================================================================================================================================================
     // SELECT ps_orders.id_order, product_name, product_quantity, total_price_tax_incl, date_add FROM ps_order_detail JOIN ps_orders 
     // ON ps_orders.id_order_detail = ps_orders.id_order WHERE ps_order_detail.name LIKE %AXIS% GROUP BY id_order
@@ -30,23 +32,7 @@ class CommandeModel extends Model
         return $query;
     }
 
-    //======================================================================================================================================================
-    // SELECT ps_orders.id_order, product_name, product_quantity, total_price_tax_incl, date_add FROM ps_order_detail JOIN ps_orders 
-    // ON ps_orders.id_order_detail = ps_orders.id_order WHERE ps_order_detail.name LIKE %HIKVISION% GROUP BY id_order
-    //======================================================================================================================================================
-
-    public function getorderhik()
-    {
-        $query = $this->db->table("ps_order_detail")
-            ->SELECT('ps_orders.id_order, product_name, product_quantity, total_price_tax_incl, date_add')
-            ->SELECTsum('total_price_tax_incl', 'total_prix')
-            ->JOIN('ps_orders', 'ps_order_detail.id_order = ps_orders.id_order')
-            ->LIKE('ps_order_detail.product_name ', 'HIKVISION')
-            ->GROUPBY('id_order')
-            ->get();
-        return $query;
-    }
-
+    // permet d'afficher le nom des marques active dans la liste déroulante de produit_marque
     //======================================================================================================================================================
     // SELECT name FROM ps_manufacturer WHERE active = 1 GROUP BY name;
     //======================================================================================================================================================
@@ -62,6 +48,7 @@ class CommandeModel extends Model
         return $liste;
     }
 
+    // Affiche tous les produits pour une marque choisie grâce à la liste déroulante
     //======================================================================================================================================================
     // SELECT multiplicateur_value, ps_product.id_product, ps_product_lang.name as name_pro, ps_manufacturer.name as name_manu, price, wholesale_price 
     // FROM ps_product JOIN ps_product_lang ON ps_product_lang.id_product = ps_product.id_product JOIN ps_manufacturer.id_manufacturer = ps_product.id_manufacturer
@@ -83,15 +70,16 @@ class CommandeModel extends Model
         return $marque;
     }
 
+    // Barre de recherche de produit_marque prennant le nom de produit
     //======================================================================================================================================================  
     // SELECT multiplicateur_value, ps_product.id_product, ps_product_lang.name as name_pro, ps_manufacturer.name as name_manu, price, wholesale_price 
     // FROM ps_product JOIN ps_product_lang ON ps_product_lang.id_product = ps_product.id_product JOIN ps_manufacturer.id_manufacturer = ps_product.id_manufacturer
     // WHERE ps_manufacturer.active = 1 AND ps_product.active = 1 AND ps_product_lang.name LIKE '%.$recherche.%' ORDER BY ps_product.id_product;
     //======================================================================================================================================================
 
-    public function getBarreRecherche(string $recherche)
+    public function getBarreRecherche($recherche)
     {
-        $query = $this->db->table("ps_product")
+        $search = $this->db->table("ps_product")
             ->SELECT('multiplicateur_value, ps_product.id_product, ps_product_lang.name as name_pro, ps_manufacturer.name as name_manu, price, wholesale_price')
             ->JOIN('ps_product_lang', ' ps_product_lang.id_product = ps_product.id_product')
             ->JOIN('ps_manufacturer', ' ps_manufacturer.id_manufacturer = ps_product.id_manufacturer')
@@ -99,10 +87,12 @@ class CommandeModel extends Model
             ->WHERE('ps_product.active', 1)
             ->LIKE('ps_product_lang.name', $recherche, 'both')
             ->orderBY('ps_product.id_product')
-            ->get();
-        return $query;
+            ->get()
+            ->getResult();
+        return $search;
     }
 
+    //Barre de recherche des commandes prennat la réference ou l'ID
     //======================================================================================================================================================  
     // SELECT multiplicateur_value, ps_product.id_product, ps_product_lang.name as name_pro, ps_manufacturer.name as name_manu, price, wholesale_price 
     // FROM ps_product JOIN ps_product_lang ON ps_product_lang.id_product = ps_product.id_product JOIN ps_manufacturer.id_manufacturer = ps_product.id_manufacturer
@@ -124,6 +114,7 @@ class CommandeModel extends Model
         return $rorder;
     }
 
+    // Affiche tous les produits dans produit_marque
     //======================================================================================================================================================
     // SELECT multiplicateur_value, ps_product.id_product, ps_product_lang.name as name_pro, ps_manufacturer.name as name_manu, price, wholesale_price 
     // FROM ps_product JOIN ps_product_lang ON ps_product_lang.id_product = ps_product.id_product JOIN ps_manufacturer.id_manufacturer = ps_product.id_manufacturer
@@ -144,6 +135,7 @@ class CommandeModel extends Model
         return $go;
     }
 
+    // affiche Modif prix pour hikvision
     //======================================================================================================================================================
     // SELECT ps_product.id_product, name, price, wholesale_price FROM ps_product JOIN ps_product_lang ON ps_product_lang.id_product = ps_product.id_product 
     // WHERE ps_product.active = 1 AND name LIKE %HIKVISION% GROUP BY id_product
@@ -162,6 +154,7 @@ class CommandeModel extends Model
         return $query;
     }
 
+    // affiche les produits en stock et 'en rupture' et 'limite(<5)'
     //======================================================================================================================================================
     // SELECT multiplicateur_value, ps_product.id_product, ps_product_lang.name as name_pro, ps_manufacturer.name as name_manu, price, wholesale_price 
     // FROM ps_product JOIN ps_product_lang ON ps_product_lang.id_product = ps_product.id_product WHERE ps_product.active = 1 GROUP BY id_product
@@ -179,6 +172,7 @@ class CommandeModel extends Model
         return $query;
     }
 
+    //affiche le stock limite(<5)
     //======================================================================================================================================================
     // SELECT ps_product_lang.id_product, name, ps_stock_available.quantity FROM ps_stock_available JOIN ps_product_lang ON ps_product_lang.id_product = ps_stock_available.id_product 
     // JOIN ps_product ON ps_stock_available.id_product = ps_product.id_product ps_ WHERE ps_product.active = 1 AND ps_stock_available.quantity > 0 AND ps_stock_available.quantity <= 5 GROUP BY ps_product_lang.id_product
@@ -197,6 +191,7 @@ class CommandeModel extends Model
         return $query;
     }
 
+    //Affiche la page de modification de prix pour un ID d'un produit
     //======================================================================================================================================================
     // SELECT ps_product.id_product, name, price, wholesale_price FROM ps_product JOIN ps_product_lang ON ps_product_lang.id_product = ps_product.id_product
     // WHERE ps_product.active = 1 AND ps_proudct.id_product = $_GET['id_product'] GROUP BY id_product
@@ -215,6 +210,7 @@ class CommandeModel extends Model
         return $query;
     }
 
+    //Affiche la page de modification de prix pour un ID d'un produit
     //======================================================================================================================================================
     // SELECT ps_product.id_product, ps_product_lang.name as name_pro, ps_manufacturer.name as name_manu, price, wholesale_price 
     // FROM ps_product JOIN ps_product_lang ON ps_product_lang.id_product = ps_product.id_product JOIN ps_manufacturer.id_manufacturer = ps_product.id_manufacturer
@@ -234,6 +230,13 @@ class CommandeModel extends Model
         return $query;
     }
 
+    //Affiche la page de modification de prix pour tous les ID d'une marque de produit
+    //======================================================================================================================================================
+    // SELECT ps_product.id_product, ps_product_lang.name as name_pro, ps_manufacturer.name as name_manu, price, wholesale_price, multiplicateur_value
+    // FROM ps_product JOIN ps_product_lang ON ps_product_lang.id_product = ps_product.id_product JOIN ps_manufacturer.id_manufacturer = ps_product.id_manufacturer
+    // WHERE ps_manufacturer.active = 1 AND ps_product.active = 1 AND ps_product.id_product = ' .$_GET['name_marque'];
+    //======================================================================================================================================================
+
     public function modif_marques_full()
     {
         $query = $this->db->table("ps_product")
@@ -247,6 +250,7 @@ class CommandeModel extends Model
         return $query;
     }
 
+    //Affiche la page de modification de prix pour un ID d'une commande
     //======================================================================================================================================================
     // SELECT id_order, product_name, total_price_tax_incl FROM ps_order_detail WHERE id_order = '. $_GET['id_order'].' GROUP BY id_order
     //======================================================================================================================================================
@@ -261,6 +265,7 @@ class CommandeModel extends Model
         return $query;
     }
 
+    // Modifie le total prix taxe incluse d'une commande
     //======================================================================================================================================================
     // UPDATE ps_order_detail SET total_price_tax_incl = '. $total_price_tax_incl .' WHERE id_order = '. $id_order;
     //======================================================================================================================================================
@@ -274,6 +279,7 @@ class CommandeModel extends Model
     }
 
 
+    // Modifie le prix d'une marque (saisie du wholesale_price et modification automatique du price selon le multiplicateur_value)
     //======================================================================================================================================================
     // UPDATE ps_product JOIN ps_manufacturer ON ps_manufacturer.id_manufacturer = ps_product.id_manufacturer SET whoelsale_price = '.$wholesale_price.',
     // price = ROUND($wholesale_price*multiplicateur_value) WHERE id_product ='.$id_product;
@@ -289,6 +295,10 @@ class CommandeModel extends Model
             ->update();
     }
 
+    //Permet le login d'un utilisateur 
+    //======================================================================================================================================================
+    //SELECT * FROM ps_employee WHERE email = $email ;
+    //======================================================================================================================================================
     public function login($email)
     {
         $login = $this->db->table("ps_employee")
@@ -298,20 +308,10 @@ class CommandeModel extends Model
     }
 
 
-    public function import($price, $name)
+    // Permet l'import en CSV des pris Hikvision
+    public function importCsv(float $price, $name)
     {
-        $query = $this->db->table("ps_product")
-            ->JOIN('ps_product_lang', 'ps_product.id_product = ps_product_lang.id_product')
-            ->set('ps_product.wholesale_price',$price)
-            ->like('ps_product_lang.name', 'Hikvision')
-            ->update();
-        return $query;
-    }
-
-    public function verifip($ip)
-    {
-        $query =$this->db->table("connexion")
-        ->like('ip', $ip)
-        ->get();
+        $import = $this->db->query("UPDATE ps_product INNER JOIN ps_product_lang ON ps_product.id_product = ps_product_lang.id_product  SET ps_product.wholesale_price = '$price' WHERE ps_product_lang.name LIKE'%$name'");
+        return $import;
     }
 }
