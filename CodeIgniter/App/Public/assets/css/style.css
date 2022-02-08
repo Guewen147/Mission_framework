@@ -520,3 +520,14 @@ input[id=button2] {
   box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
 }
+.alert{
+  width:50%;
+  margin:auto;
+  padding:30px;
+  position:relative;
+  text-align: center;
+  font-size:20px;
+  background-color: #a8f0c6;
+  border-radius:5px;
+  box-shadow:0 0 15px 5px #ccc;
+}
