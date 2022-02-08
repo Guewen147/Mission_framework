@@ -1,0 +1,522 @@
+body {
+  background-color: white;
+  font-family: "Barlow Semi Condensed", sans-serif;
+}
+
+.im1 {
+  margin-bottom: 10%;
+}
+
+.logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 15%;
+}
+
+.liste {
+  margin-top: 1%;
+  margin-left: 35%;
+  left: 10%;
+  top: 400%;
+  height: 40%;
+  width: 30%;
+  text-align: left;
+  border: solid 5px black;
+  background-color: lightgrey;
+  color: black;
+}
+
+.bar-navigation {
+  background-color: #ff6501;
+  margin: 0 auto;
+  max-width: 2600px;
+  width: 100%;
+}
+
+.main-navigation {
+  clear: both;
+  margin: 0 auto;
+  max-width: 80%;
+  min-height: 45px;
+  position: relative;
+  text-align: center;
+}
+
+.nav-menu li {
+  display: inline-block;
+  position: relative;
+}
+
+.nav-menu li a {
+  color: #fff;
+  display: block;
+  font-size: 18px;
+  line-height: 1;
+  padding: 25px 20px;
+  text-decoration: none;
+}
+
+#tete {
+  background-color: #5c5c5c;
+  display: block;
+  font-size: 15px;
+  line-height: 1;
+  padding: 20px 20px;
+  text-decoration: none;
+  color: #fff;
+  margin: 0;
+  width: 300px;
+  border: none;
+}
+.form:hover,
+#tete:hover {
+  background-color: #ff6501;
+  color: white;
+}
+
+.nav-menu li:hover > a,
+.nav-menu li a:hover,
+.nav-menu li:focus > a,
+.nav-menu li a:focus {
+  background-color: #5c5c5c;
+  color: #fff;
+}
+
+.nav-menu .children {
+  background-color: #5c5c5c;
+  border: 2px solid #5e5e5e;
+  border-top: 0;
+  padding: 0;
+  position: absolute;
+  left: -2px;
+  z-index: 99999;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+ul.nav-menu ul a,
+.nav-menu ul ul a {
+  color: #fff;
+  margin: 0;
+  width: 200px;
+}
+
+ul.nav-menu ul a:hover,
+.nav-menu ul ul a:hover,
+ul.nav-menu ul a:focus,
+.nav-menu ul ul a:focus {
+  background-color: #db572f;
+}
+
+ul.nav-menu li:hover > ul,
+.nav-menu ul li:hover > ul,
+s ul.nav-menu .focus > ul,
+.nav-menu .focus > ul {
+  clip: inherit;
+  overflow: inherit;
+  height: inherit;
+  width: inherit;
+}
+h1 {
+  text-align: center;
+}
+
+header {
+  display: flex;
+  width: 100%;
+  height: 145px;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  position: fixed;
+  top: 30px;
+  height: 38px;
+  left: 0px;
+}
+
+a {
+  position: center;
+}
+
+ul {
+  border-radius: 5px;
+}
+.pagination a.active {
+  border-radius: 5px;
+}
+
+ul.pagination {
+  margin: 6px 0;
+  text-align: center;
+  font-weight: bold;
+}
+ul.pagination li {
+  background: #fff;
+  display: inline;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+ul.pagination li span,
+#lien_off {
+  display: inline;
+  *zoom: 1;
+
+  line-height: 20px;
+  padding: 2px 8px;
+  border: 1px solid #ff6501;
+}
+#lien_off {
+  border: 1px solid #ccc;
+  color: #ccc;
+}
+ul.pagination a {
+  display: inline;
+  *zoom: 1;
+
+  color: black;
+  background: #fff;
+  line-height: 20px;
+  padding: 2px 8px;
+  text-decoration: none;
+  border: 1px solid #ccc;
+}
+ul.pagination a:hover,
+ul.pagination a:active,
+ul.pagination a:focus {
+  background: #ff6501;
+  color: #fff;
+  text-decoration: none;
+}
+
+#button {
+  background-color: #ff6501;
+  border: 0px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  width: 100%;
+}
+
+#button:hover {
+  background-color: #5c5c5c;
+  color: white;
+}
+
+#button1 {
+  background-color: #f0c03e;
+  border: 0px;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  width: 100%;
+  border-radius: 3px;
+  padding-top: 5px;
+  height: 38px;
+}
+#button1:hover {
+  background-color: #5c5c5c;
+  color: white;
+}
+
+
+
+#barrecherche {
+  margin: auto;
+  position: fixed;
+  border: 0px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  width: 100%;
+}
+
+.container {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.container1 {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.responsive-table li {
+  border-radius: 3px;
+  padding: 25px 30px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.table-header {
+  background-color: #ff6501;
+  font-size: 18px;
+  text-transform: uppercase;
+  color: white;
+  letter-spacing: 0.03em;
+}
+
+.table-row {
+  background-color: #ffffff;
+  box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+}
+
+.col-1 {
+  flex-basis: 15%;
+  text-align: center;
+}
+.col-2 {
+  flex-basis: 40%;
+  text-align: center;
+}
+.col-3 {
+  flex-basis: 30%;
+  text-align: center;
+}
+.col-4 {
+  flex-basis: 15%;
+  text-align: center;
+}
+.col-5 {
+  flex-basis: 20%;
+  text-align: center;
+}
+
+.col-7 {
+  flex-basis: 35%;
+  text-align: center;
+}
+
+@media all and (max-width: 767px) {
+  .table-header {
+    display: none;
+  }
+  .table-row {
+  }
+  li {
+    display: block;
+  }
+  .col {
+    flex-basis: 100%;
+  }
+  .col :before {
+    display: flex;
+    padding: 10px 0;
+    color: #6c7a89;
+    padding-right: 10px;
+    content: attr(data-label);
+    flex-basis: 50%;
+    text-align: right;
+  }
+}
+
+.search {
+  width: 500px;
+  height: 40px;
+  margin: 10px auto;
+  background: #5e5e5e;
+  border-radius: 3px;
+  border: 1px solid #fff;
+}
+.send {
+  width: 380px;
+  height: 40px;
+  padding: 10px 5px;
+  float: left;
+  color: #ccc;
+  border: 0;
+  background: transparent;
+  border-radius: 3px 0 0 3px;
+}
+.send:focus {
+  outline: 0;
+  background: transparent;
+}
+
+button {
+  position: relative;
+  float: right;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  height: 40px;
+  width: 120px;
+  color: #fff;
+  background: #5e5e5e;
+  border-left: 1px solid #fff;
+  border-radius: 0 3px 3px 0;
+}
+button:hover {
+  background: #ff6501;
+  color: #444;
+}
+button:active {
+  box-shadow: 0px 0px 12px 0px rgba(225, 225, 225, 1);
+}
+button:focus {
+  outline: 0;
+}
+
+.bloc1 {
+  height: 10%;
+  background-color: aqua;
+}
+
+#import
+{
+  position: absolute;
+  position: fixed;
+  background-color: white;
+  
+  text-align: left;
+  border: 2px solid #ff6600;
+  border-radius: 35px;
+  
+}
+#import h4{
+  text-align : center;
+  background-color: #ff6600;
+  color: white;
+  margin: 0 auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 32px 32px 0px 0px;
+}
+
+input[type=file] {
+  width: 100%;
+  padding: 12px 20px;
+  text-align: center;
+  display: inline-block;
+  box-sizing: border-box;
+  color : black;
+}
+
+input[type=submit] {
+  background-color: #ff6600;
+  color: white;
+  margin-left: 30%;
+  margin-right: 30% ;
+  margin-top: 10px;                      
+  margin-bottom: 10px;
+  border: none;
+  width: 35%;
+  box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+.Acceuil1
+{
+  position: absolute;
+  margin-top: 1%;
+  margin-left : 10%;
+  width: 25%;
+  height: 40%;
+  border-radius: 30px;
+  background-color:#ff6600   ;
+}
+
+.Acceuil2
+{
+  position:absolute;
+  margin-top: 1%;
+  margin-left : 36%;
+  width: 25%;
+  height: 40%;
+  border-radius: 30px;
+  background-color:#5e5e5e;
+}
+
+.Acceuil3
+{
+  position: absolute;
+  margin-top: 1%;
+  margin-left : 62%;
+  width: 25%;
+  height: 40%;
+  border-radius: 30px;
+  background-color:#ff6600   ;
+}
+.Acceuil4
+{
+  position: absolute;
+  margin-top: 22%;
+  margin-left : 10%;
+  width: 25%;
+  height: 40%;
+  border-radius: 30px;
+  background-color:#5e5e5e;
+}
+
+.Acceuil5
+{
+  position:absolute;
+  margin-top: 22%;
+  margin-left : 36%;
+  width: 25%;
+  height: 40%;
+  border-radius: 30px;
+  background-color:#ff6600 ;
+}
+
+.Acceuil6
+{
+  position: absolute;
+  margin-top: 22%;
+  margin-left : 62%;
+  width: 25%;
+  height: 40%;
+  border-radius: 30px;
+  background-color:#5e5e5e;
+}
+
+.Access
+{
+  text-align: center;
+  margin-top: 8%;
+  color : white;
+
+}
+.im-lien
+{
+  background-color: white;
+  border: 4px black;
+  margin-top: 5%;
+  margin-left: 1%;
+  width: 98%;
+  height: 267px;
+  border-radius: 30px;
+}
+
+.listeD
+{
+  text-align : center;
+  width: 100%;
+}
+
+input[id=button2] {
+  background-color: #ff6600;
+  color: white;
+  margin-top: -5%;
+  margin-left: 2%;
+  border: none;
+  width: 100%;
+  height:30px;
+  box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
