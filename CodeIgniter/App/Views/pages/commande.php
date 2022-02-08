@@ -11,11 +11,23 @@
 <body>
 <form class="search" method="GET">
         <input class="send" type="search" name="q" placeholder="Rechercher une reference ou une ID de commande">
-        <button type="submit" action="<?php echo base_url('Home/recherche') ?>">Rechercher</button>
+        <button type="submit">Rechercher</button>
     </form>
     <h1> Liste des commandes </h1>
+    
+    <?php
 
+        $session = \Config\Services::session();
 
+        if($session->getFlashdata('success'))
+        {
+            echo '
+            <div class="alert alert-success">'.$session->getFlashdata("success").'</div>
+            ';
+        }
+
+        ?>
+    
     <div class="container1">
         <ul class="responsive-table">
             <li class="table-header">
