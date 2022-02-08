@@ -19,6 +19,7 @@
     </li>
 
 <?php if(!empty($id_data)){
+  // Affichage des quantités produits, avec si <5 rajoute LIMITE si <0 affiche en rupture
                 foreach ($id_data as $quantity) {  ?>
     
     <li class="table-row">
