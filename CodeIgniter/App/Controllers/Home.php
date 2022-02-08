@@ -330,7 +330,7 @@ class Home extends BaseController
 
     }
 
-    public function importcsv()
+    public function import()
     {
 
         $commandeModel = new CommandeModel();
@@ -350,81 +350,17 @@ class Home extends BaseController
             $wholesale_price = $column[1];
             $price = str_replace(',', '.', $wholesale_price);
             $commandeModel = new CommandeModel();
-            $data = $commandeModel->import($price,$name); 
-
-            if (isset($data)) {
-                $data['id_data'];
-            if (! empty($result)) {
-                $type = "success";
-                $message = "Les Donnees sont importees dans la base de donnees";
-            } else {
-                $type = "error";
-                $message = "Probleme lors de l'importation de donnees CSV";
-        }
-      }
-    }
-  }
-
-        /*$input = $this->validate([
-            'file' => 'uploaded[file]|max_size[file,2048]|ext_in[file,csv],'
-        ]);
-
-        if (!$input) {
-            $data['validation'] = $this->validator;
-            return view('/pages/prixhikvision', $data);
-        } 
-            else 
-            {
-                if ($file = $this->request->getFile('file')) {
-                    if ($file->isValid() && !$file->hasMoved()) {
-                        $newName = $file->getRandomName();
-                        $file->move('../public/csvfile', $newName);
-                        $file = fopen("../public/csvfile/" . $newName, "r");
-                        $i = 0;
-                        $numberOfFields = 4;
-
-                        $csvArr = array();
-
-                        while (($filedata = fgetcsv($file, 1000, ",")) !== FALSE) {
-                            $num = count($filedata);
-                            if ($i > 0 && $num == $numberOfFields) {
-                                $csvArr[$i]['id_product'] = $filedata[0]; // Faut modifier 
-                                $csvArr[$i]['name'] = $filedata[1];
-                                $csvArr[$i]['wholesale_price'] = $filedata[2];
-                                $csvArr[$i]['price'] = $filedata[3];
-                            }
-                            $i++;
-                        }
-                        fclose($file);
-
-                        $count = 0;
-                        foreach ($csvArr as $userdata) {
-                            $ps_product = new CommandeModel();
-
-                            $findRecord = $ps_product->where('id_product', $userdata->id)->countAllResults();
-
-                            if ($findRecord == 0) {
-                                if ($ps_product->insert($userdata)) {
-                                    $count++;
-                                }
-                            }
-                        }
-                        session()->setFlashdata('message', $count . ' rows successfully added.');
-                        session()->setFlashdata('alert-class', 'alert-success');
-                    } else 
-                    {
-                    session()->setFlashdata('message', 'CSV file coud not be imported.');
-                    session()->setFlashdata('alert-class', 'alert-danger');
-                    }
-                }
-                else 
-                {
-                session()->setFlashdata('message', 'CSV file coud not be imported.');
-                session()->setFlashdata('alert-class', 'alert-danger');
+            $data = $commandeModel->importCsv($price,$name); 
+            $result = [
+                'id_data' => $data
+            ];
+            $session = \Config\Services::session();
             }
         }
-
-        //return redirect()->route('/pages/hikvision');*/
+        }
+        $session->setFlashdata('success', "le fichier.csv a été importé");
+        echo view('includes/header');
+        echo view('pages/home');
+        echo view('includes/footer');
     }
-}
 }
