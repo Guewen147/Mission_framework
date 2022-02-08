@@ -11,7 +11,8 @@
 
     <h1> Modification des commandes de HIKVISION </h1>
     <div id='import'>
-        <form enctype="multipart/form-data" action="<?php echo base_url('Home/importcsv') ?>" method="post">
+        <!-- Import du CSV pour modifier directement grâce à un fichier CSV les prix -->
+        <form enctype="multipart/form-data" action="<?php echo base_url('Home/import') ?>" method="post">
         
             <h4>Choisir un fichier CSV</h4>
 </br>
@@ -37,6 +38,7 @@
             </li>
 
             <?php if(!empty($id_data)){
+                // Affichage des produits HIKVISION
                 foreach ($id_data as $product) { ?>
 
                 <li class="table-row">
