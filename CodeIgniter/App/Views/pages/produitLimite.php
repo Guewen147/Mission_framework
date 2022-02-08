@@ -19,6 +19,7 @@
     </li>
 
 <?php if(!empty($id_data)){ 
+    // Affichage des produits en quantité limité
     foreach( $id_data as $quantity){?>
     <li class="table-row">
     <div class="col col-1" data-label="id_product">  <?php echo $quantity -> id_product . '<br>';?> </div>
