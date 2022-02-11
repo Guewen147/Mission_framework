@@ -338,4 +338,15 @@ class CommandeModel extends Model
         WHERE ps_product_lang.name LIKE '%$name' ORDER BY ps_product.id_product");
         return $comparaison;*/
     }
+    public function updateCoef($marque){
+        /* $this->db->table("ps_product")
+        ->join('ps_manufacturer', 'ps_manufacturer.id_manufacturer = ps_product.id_manufacturer')
+        ->set('price', 'ROUND(wholesale_price * multiplicateur_value)')
+        ->where('ps_manufacturer.name', $marque)
+        ->update();
+        */
+        $coef = $this->db->query("UPDATE ps_product INNER JOIN ps_manufacturer ON ps_manufacturer.id_manufacturer = ps_product.id_manufacturer  
+            SET price = ROUND(wholesale_price*multiplicateur_value) WHERE ps_manufacturer.name = '$marque'");
+        return $coef;
+    }
 }
