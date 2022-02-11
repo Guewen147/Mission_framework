@@ -198,6 +198,32 @@ class Home extends BaseController
         echo view('pages/modif_price', $data);
     }
 
+    function edit_price_coef()
+    {
+        helper(['forme', 'url']);
+
+        $modif_order = new CommandeModel();
+
+        $marque = $this->request->getVar('name');
+
+
+            $modif_order->updateCoef($marque);
+
+            $session = \Config\Services::session();
+
+            //==============================================================================
+            // - Si le nom de la marque est dans l'url possibilité de modifier tous les prix 
+            // - Sinon modifie le prix selon l'ID et retourne à la page produit_marque
+            //==============================================================================
+
+
+                $session->setFlashdata('success', 'Produit Modifié');
+
+                return $this->response->redirect(site_url('/Home/produit_marque'));
+            
+        
+    }
+    
     //=======================================================================================================
     // fonction qui vérifie si la modification de prix d'une commande à été saisie et modifie le prix d'achat 
     //=======================================================================================================
