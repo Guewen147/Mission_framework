@@ -48,11 +48,16 @@
                     </div>
                     <div class="col col-3">Nom du produit</div>
                     <div class="col col-3">Prix d'achat</div>
-                    <div class="col col-3">Prix de Vente</div>
+                    <div class="col col-3">Prix de Vente<br><br>
+                    <?php if (isset($_GET['name']) and !empty($_GET['name'])) { ?>
+                    <div class="col col-4" data-label="MODIFIER"><a href="<?php echo base_url('Home/edit_price_coef') ?>?name=<?= $_GET['name'] ?>"><span  id=button1>Modifier par coeff</span id=button> </a></div>
+       
+                    <?php } ?>
+                    </div>
                     <div class="col col-5"> MODIFIER <br><br>
                         <!-- Affichage du bouton Modifier pour les produits d'un marque si le nam dans l'URL -->
                     <?php if (isset($_GET['name']) and !empty($_GET['name'])) { ?>
-        <div class="col col-4" data-label="MODIFIER"><a href="<?php echo base_url('Home/modif_marque') ?>?name_marque=<?= $_GET['name'] ?>"><span  id=button1>Modifier par marques</span id=button> </a>
+        <div class="col col-4" data-label="MODIFIER"><a href="<?php echo base_url('Home/modif_marque') ?>?name_marque=<?= $_GET['name'] ?>"><span  id=button1>Modifier par marques</span id=button> </a></div>
         <?php } ?>
                     </div>
 
